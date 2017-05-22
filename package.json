@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cron": "^1.2.1",
     "find-package-json": "^1.0.0",
     "twit": "^2.2.5"
   },
