@@ -1,4 +1,3 @@
-const fs = require("fs");
 const path = require("path");
 const Twit = require("twit");
 const request = require('request');
