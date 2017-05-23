@@ -6,6 +6,7 @@ const cronOptions = {
     onTick: initializeBot,
     startNow: true,
     runOnInit: true,
+    onComplete: () => console.info('Fin... Next post is in 30mins :)'),
     timeZone: 'Africa/Lagos'
 };
 
