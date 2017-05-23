@@ -94,3 +94,6 @@ const retrieveImage = () => {
 
 // Bot entry point. Spin things up :)
 const init = () => retrieveImage();
+
+// Expose the `init` function, so it can be administered by the clock/cron module.
+module.exports = init;
