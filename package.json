@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "engines": {
-    "node": "6.9.2",
-    "npm": "3.10.9"
-  }
-  "scripts" : {
+    "node": "7.10.0",
+    "npm": "4.2.0"
+  },
+  "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app/index.js"
   },
@@ -14,6 +14,8 @@
   "license": "ISC",
   "dependencies": {
     "find-package-json": "^1.0.0",
+    "foobar": "^1.1.0",
+    "grunt-cli": "^0.1.13",
     "twit": "^2.2.5"
   },
   "description": ""
