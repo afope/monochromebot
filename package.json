@@ -8,11 +8,12 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app/index.js"
+    "start": "node clock.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cron": "^1.2.1",
     "find-package-json": "^1.0.0",
     "foobar": "^1.1.0",
     "grunt-cli": "^0.1.13",

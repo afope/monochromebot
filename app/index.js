@@ -1,10 +1,9 @@
 
-var fs = require("fs"),
-  path = require("path"),
-  Twit = require("twit"),
-  request = require('request'),
-  config = require(path.join(__dirname, "config.js")),
-  T = new Twit(config);
+const path = require("path");
+const Twit = require("twit");
+const request = require('request');
+const config = require(path.join(__dirname, "config.js"));
+const T = new Twit(config);
 
 
 /** Helper functions **/
@@ -15,23 +14,7 @@ var fs = require("fs"),
  * @param file
  * @returns {*}
  */
-function base64_encode(file) {
-
-  return new Buffer(file, 'binary').toString('base64');
-}
-
-/**
- * Create new file from base64 encoded string.
- *
- * @param base64str
- * @param file
- */
-function base64_decode(base64str, file) {
-
-  var bitmap = new Buffer(base64str, 'base64');
-
-  fs.writeFileSync(file, bitmap);
-}
+const base64_encode = fileBuffer => new Buffer(fileBuffer, 'binary').toString('base64');
 
 /** End Helper functions **/
 
@@ -42,12 +25,12 @@ function base64_decode(base64str, file) {
  * @param error
  * @param response
  */
-function notify(error, response) {
+const notify = (error, response) => {
 
   if (error) return console.error(error);
 
   console.info('Done posting image to twitter!');
-}
+};
 
 /**
  * Update twitter timeline with newly updated image.
@@ -55,59 +38,63 @@ function notify(error, response) {
  * @param error
  * @param response
  */
-function updateStatus(error, response) {
+const updateStatus = (error, response) => {
 
   if (error) return console.error(error);
 
   console.info('Updating twitter timeline.');
 
-  T.post('statuses/update', {media_ids: new Array(response.media_id_string)}, notify);
-}
+  T.post('statuses/update', {
+    media_ids: new Array(response.media_id_string)
+  }, notify);
+};
 
-/**gg
+/**
  * Upload image to twitter.
  *
  * @param error
  * @param response
  * @param body
- * @returns {number}
+ * @returns {*}
  */
-function uploadMediaContent(error, response, body) {
+const uploadMediaContent = (error, response, body) => {
 
   if (error) return response.end(error.message);
 
   console.info('Uploading image to twitter.');
 
-  T.post('media/upload', {media_data: base64_encode(body)}, updateStatus);
-}
+  T.post('media/upload', {
+    media_data: base64_encode(body)
+  }, updateStatus);
+};
 
 /**
  * Retrieve image from cloudinary.
  */
-function retrieveImage() {
+const retrieveImage = () => {
 
-  var photoId = Math.floor((Math.random() * 100) + 1),
-    requestOptions = {
-      encoding: null
-    };
+  let photoId = Math.floor((Math.random() * 100) + 1);
+  let requestOptions = {
+    encoding: null
+  };
 
   console.info('Retrieving image from the cloud.');
 
   request
-   .get(
-    "http://res.cloudinary.com/didhg8jke/image/upload/v1485630774/MONOCHROME/" + photoId,
-    requestOptions,
-    uploadMediaContent
-  )
-  .on('error', function (e) {
-    // Handle errors, most importantly ETIMEDOUT error.
-    console.error(e);
-  }).end();
-}
+    .get(
+      "http://res.cloudinary.com/didhg8jke/image/upload/v1485630774/MONOCHROME/" + photoId,
+      requestOptions,
+      uploadMediaContent
+    )
+    .on('error', function (e) {
+      // Handle errors, most importantly ETIMEDOUT error.
+      console.error(e);
+    })
+    .end();
+};
 
 // Bot entry point. Spin things up :)
-function init() {
-  retrieveImage();
-}
+const init = () => retrieveImage();
 
-setInterval(init, 1800000);
+// Expose the `init` function, so it can be administered by the clock/cron module.
+module.exports = init;
